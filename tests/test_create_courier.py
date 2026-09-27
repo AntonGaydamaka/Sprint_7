@@ -1,7 +1,8 @@
 import allure
 import pytest
 import requests
-from helps import DataCourier
+from data import DataCourier
+from helps import Courier
 from endpoints import Endpoints
 from urls import Urls
 
@@ -24,8 +25,10 @@ class TestCreateCourier:
 
     @allure.title('Проверка ошибки при создании курьера без заполнения обязательных полей Login/Password')
     @allure.description('Отправляем запрос на создание курьера без заполнения обязательных полей Login/Password и проверяем ответ')
-    @pytest.mark.parametrize('courier_data', [DataCourier.invalid_data_login_without_login,
-                                           DataCourier.invalid_data_login_without_password])
+    @pytest.mark.parametrize('courier_data', [
+    DataCourier.invalid_data_without_login,
+    DataCourier.invalid_data_without_password
+])
     def test_courier_registration_without_parameters_failed(self, courier_data):
         response = requests.post(f'{Urls.QA_SCOOTER_URL}{Endpoints.create_courier}', data=courier_data)
         assert response.status_code == 400
